@@ -83,6 +83,12 @@ window.onload = function init() {
 
     document.getElementById("xAngTxt").innerText = "(" + Math.round(xAngle * 100) / 100 + ")";
     document.getElementById("yPosTxt").innerText = "(" + yPos + ")";
+    document.getElementById("fovyTxt").innerText = "(" + fovy + ")";
+    document.getElementById("nearTxt").innerText = "(" + near + ")";
+    document.getElementById("farTxt").innerText = "(" + far + ")";
+    document.getElementById("leftrightTxt").innerText = "(" + left + ")";
+    document.getElementById("topbottomTxt").innerText = "(" + yTop + ")";
+    document.getElementById("ratioTxt").innerText = "(" + ratio + ")";
 
     render();
 
@@ -118,6 +124,97 @@ window.onload = function init() {
             yPos = Number(event.target.value);
             document.getElementById("yPosTxt").innerText = "(" + yPos + ")";
         };
+
+    document.getElementById("fovy").oninput =
+        function (event) {
+            fovy = Number(event.target.value);
+            document.getElementById("fovyTxt").innerText = "(" + fovy + ")";
+        };
+
+    document.getElementById("near").oninput =
+        function (event) {
+            near = Number(event.target.value);
+            document.getElementById("nearTxt").innerText = "(" + near + ")";
+        };
+
+    document.getElementById("far").oninput =
+        function (event) {
+            far = Number(event.target.value);
+            document.getElementById("farTxt").innerText = "(" + far + ")";
+        };
+
+    document.getElementById("leftright").oninput =
+        function (event) {
+            right = Number(event.target.value);
+            right = -right;
+            document.getElementById("leftrightTxt").innerText = "(" + right + ")";
+        };
+
+    document.getElementById("topbottom").oninput =
+        function (event) {
+            yTop = Number(event.target.value);
+            bottom = -yTop;
+            document.getElementById("topbottomTxt").innerText = "(" + yTop + ")";
+        };
+
+    document.getElementById("ratio").oninput =
+        function (event) {
+            ratio = Number(event.target.value);
+            document.getElementById("ratioTxt").innerText = "(" + ratio + ")";
+        };
+
+    document.addEventListener("keydown",
+        function (event) {
+            if (event.keyCode == 37) {   // Left Arrow
+                xAngle += 0.1;
+                document.getElementById("xAngTxt").innerText = "(" + Math.round(xAngle * 100) / 100 + ")";
+            }
+            if (event.keyCode == 39) {   // Right Arrow
+                xAngle -= 0.1;
+                document.getElementById("xAngTxt").innerText = "(" + Math.round(xAngle * 100) / 100 + ")";
+            }
+            if (event.keyCode == 38) {   // Up Arrow
+                if (isPerspective) {
+                    if (fovy > 0) {
+                        fovy -= 5;
+                        document.getElementById("fovy").value = fovy;
+                        document.getElementById("fovyTxt").innerText = "(" + fovy + ")";
+                    }
+                } else {
+                    if (right > 0.1) {
+                        right *= 0.9;
+                        left *= 0.9;
+                        yTop *= 0.9;
+                        bottom *= 0.9;
+                        document.getElementById("leftright").value = right;
+                        document.getElementById("topbottom").value = yTop;
+                        document.getElementById("leftrightTxt").innerText = "(" + right + ")";
+                        document.getElementById("topbottomTxt").innerText = "(" + yTop + ")";
+                    }
+                }
+            }
+            if (event.keyCode == 40) {   // Down Arrow
+                if (isPerspective) {
+                    if (fovy < 180) {
+                        fovy += 5;
+                        document.getElementById("fovy").value = fovy;
+                        document.getElementById("fovyTxt").innerText = "(" + fovy + ")";
+                    }
+                } else {
+                    if (right < 10) {
+                        right *= 1.1;
+                        left *= 1.1;
+                        yTop *= 1.1;
+                        bottom *= 1.1;
+                        document.getElementById("leftright").value = right;
+                        document.getElementById("topbottom").value = yTop;
+                        document.getElementById("leftrightTxt").innerText = "(" + right + ")";
+                        document.getElementById("topbottomTxt").innerText = "(" + yTop + ")";
+                    }
+                }
+            }
+        },
+    false);
 }
 
 // DEFINE CUBE
